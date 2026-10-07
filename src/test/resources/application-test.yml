@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:agroleak;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;NON_KEYWORDS=VALUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+agroleak:
+  demo-data-enabled: false
+  detection:
+    leak-threshold-percent: 20.0
+    min-flow-for-analysis: 3.0
+    pressure-min-bar: 1.0
+    pressure-max-bar: 4.0
+    obstruction-flow-out-threshold: 5.0
+    obstruction-pressure-threshold: 3.2
+    pair-window-seconds: 120
