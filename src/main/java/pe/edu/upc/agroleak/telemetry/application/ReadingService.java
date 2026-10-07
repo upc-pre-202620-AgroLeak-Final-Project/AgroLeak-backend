@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.upc.agroleak.device.application.DeviceService;
 import pe.edu.upc.agroleak.device.domain.Device;
+import pe.edu.upc.agroleak.monitoring.application.DetectionService;
 import pe.edu.upc.agroleak.telemetry.domain.SensorReading;
 import pe.edu.upc.agroleak.telemetry.domain.SensorType;
 import pe.edu.upc.agroleak.telemetry.infrastructure.SensorReadingRepository;
@@ -20,10 +21,12 @@ import java.util.UUID;
 public class ReadingService {
     private final SensorReadingRepository repository;
     private final DeviceService deviceService;
+    private final DetectionService detectionService;
 
-    public ReadingService(SensorReadingRepository repository, DeviceService deviceService) {
+    public ReadingService(SensorReadingRepository repository, DeviceService deviceService, DetectionService detectionService) {
         this.repository = repository;
         this.deviceService = deviceService;
+        this.detectionService = detectionService;
     }
 
     @Transactional
@@ -33,6 +36,7 @@ public class ReadingService {
         SensorReading reading = repository.save(new SensorReading(device, sensorType, value, unit, timestamp));
         deviceService.markSeen(deviceId);
         repository.flush();
+        detectionService.evaluate(device);
         return reading;
     }
 
