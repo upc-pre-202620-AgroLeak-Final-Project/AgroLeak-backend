@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: agroleak-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/agroleak}
+    username: ${DB_USERNAME:agroleak}
+    password: ${DB_PASSWORD:agroleak}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+
+agroleak:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+  demo-data-enabled: ${DEMO_DATA_ENABLED:true}
+  detection:
+    leak-threshold-percent: 20.0
+    min-flow-for-analysis: 3.0
+    pressure-min-bar: 1.0
+    pressure-max-bar: 4.0
+    obstruction-flow-out-threshold: 5.0
+    obstruction-pressure-threshold: 3.2
+    pair-window-seconds: 120
