@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "AgroLeak Backend v0.1",
+    "description": "Colección de demo para la entrega parcial de AgroLeak.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8080"},
+    {"key": "deviceId", "value": "REPLACE_WITH_DEVICE_UUID"},
+    {"key": "commandId", "value": "REPLACE_WITH_COMMAND_UUID"}
+  ],
+  "item": [
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "List devices",
+          "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/devices"}
+        }
+      ]
+    },
+    {
+      "name": "Demo scenarios",
+      "item": [
+        {"name": "Normal", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/demo/scenarios/normal/{{deviceId}}"}},
+        {"name": "Leak", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/demo/scenarios/leak/{{deviceId}}"}},
+        {"name": "Obstruction", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/demo/scenarios/obstruction/{{deviceId}}"}}
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {"name": "Current dashboard", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/dashboard/{{deviceId}}"}}
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {"name": "Active alerts", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/alerts?deviceId={{deviceId}}&status=ACTIVE"}}
+      ]
+    },
+    {
+      "name": "Valve",
+      "item": [
+        {
+          "name": "Request CLOSE",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"action\": \"CLOSE\"\n}"},
+            "url": "{{baseUrl}}/api/v1/valves/{{deviceId}}/commands"
+          }
+        },
+        {
+          "name": "Confirm command",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"success\": true\n}"},
+            "url": "{{baseUrl}}/api/v1/valves/commands/{{commandId}}/confirm"
+          }
+        }
+      ]
+    }
+  ]
+}
