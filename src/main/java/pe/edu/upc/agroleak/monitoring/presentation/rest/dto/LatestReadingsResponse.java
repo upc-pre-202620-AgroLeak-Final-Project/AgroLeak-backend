@@ -1,4 +1,4 @@
-package pe.edu.upc.agroleak.telemetry.presentation.rest.dto;
+package pe.edu.upc.agroleak.monitoring.presentation.rest.dto;
 
 import java.util.Map;
 

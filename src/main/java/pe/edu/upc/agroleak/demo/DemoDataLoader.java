@@ -9,8 +9,8 @@ import pe.edu.upc.agroleak.devices.application.DeviceService;
 import pe.edu.upc.agroleak.devices.domain.model.Device;
 import pe.edu.upc.agroleak.devices.infrastructure.DeviceRepository;
 import pe.edu.upc.agroleak.pests.application.PestObservationService;
-import pe.edu.upc.agroleak.telemetry.application.ReadingService;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.application.ReadingService;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
 
 @Component
 @ConditionalOnProperty(prefix = "agroleak", name = "demo-data-enabled", havingValue = "true", matchIfMissing = true)

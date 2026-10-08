@@ -1,7 +1,7 @@
-package pe.edu.upc.agroleak.telemetry.presentation.rest.dto;
+package pe.edu.upc.agroleak.monitoring.presentation.rest.dto;
 
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorReading;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorReading;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
 
 import java.time.Instant;
 import java.util.UUID;

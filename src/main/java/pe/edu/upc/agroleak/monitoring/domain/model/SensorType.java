@@ -1,4 +1,4 @@
-package pe.edu.upc.agroleak.telemetry.domain.model;
+package pe.edu.upc.agroleak.monitoring.domain.model;
 
 public enum SensorType {
     FLOW_IN,

@@ -6,9 +6,9 @@ import pe.edu.upc.agroleak.alerts.application.AlertService;
 import pe.edu.upc.agroleak.devices.domain.model.Device;
 import pe.edu.upc.agroleak.monitoring.infrastructure.config.DetectionProperties;
 import pe.edu.upc.agroleak.monitoring.domain.model.SensorSnapshot;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorReading;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
-import pe.edu.upc.agroleak.telemetry.infrastructure.SensorReadingRepository;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorReading;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.infrastructure.SensorReadingRepository;
 
 import java.time.Duration;
 import java.util.Optional;

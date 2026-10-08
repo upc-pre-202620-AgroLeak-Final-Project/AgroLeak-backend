@@ -2,8 +2,8 @@ package pe.edu.upc.agroleak.demo;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import pe.edu.upc.agroleak.telemetry.application.ReadingService;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.application.ReadingService;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
 
 import java.util.UUID;
 

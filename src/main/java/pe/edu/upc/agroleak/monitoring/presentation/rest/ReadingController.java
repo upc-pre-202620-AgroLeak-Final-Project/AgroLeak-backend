@@ -1,13 +1,13 @@
-package pe.edu.upc.agroleak.telemetry.presentation.rest;
+package pe.edu.upc.agroleak.monitoring.presentation.rest;
 
-import pe.edu.upc.agroleak.telemetry.presentation.rest.dto.CreateReadingRequest;
-import pe.edu.upc.agroleak.telemetry.presentation.rest.dto.LatestReadingsResponse;
-import pe.edu.upc.agroleak.telemetry.presentation.rest.dto.ReadingResponse;
+import pe.edu.upc.agroleak.monitoring.presentation.rest.dto.CreateReadingRequest;
+import pe.edu.upc.agroleak.monitoring.presentation.rest.dto.LatestReadingsResponse;
+import pe.edu.upc.agroleak.monitoring.presentation.rest.dto.ReadingResponse;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.upc.agroleak.telemetry.application.ReadingService;
+import pe.edu.upc.agroleak.monitoring.application.ReadingService;
 
 import java.util.LinkedHashMap;
 import java.util.List;

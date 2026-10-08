@@ -1,4 +1,4 @@
-package pe.edu.upc.agroleak.telemetry.domain.model;
+package pe.edu.upc.agroleak.monitoring.domain.model;
 
 import jakarta.persistence.*;
 import pe.edu.upc.agroleak.devices.domain.model.Device;

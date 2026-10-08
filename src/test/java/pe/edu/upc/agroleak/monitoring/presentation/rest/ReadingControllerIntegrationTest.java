@@ -1,4 +1,4 @@
-package pe.edu.upc.agroleak.telemetry.presentation.rest;
+package pe.edu.upc.agroleak.monitoring.presentation.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import pe.edu.upc.agroleak.devices.application.DeviceService;
 import pe.edu.upc.agroleak.devices.domain.model.Device;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
 
 import java.util.Map;
 

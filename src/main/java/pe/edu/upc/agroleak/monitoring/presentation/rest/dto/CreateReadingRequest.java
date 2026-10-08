@@ -1,9 +1,9 @@
-package pe.edu.upc.agroleak.telemetry.presentation.rest.dto;
+package pe.edu.upc.agroleak.monitoring.presentation.rest.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorType;
 
 import java.time.Instant;
 import java.util.UUID;
