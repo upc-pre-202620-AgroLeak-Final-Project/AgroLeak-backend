@@ -2,12 +2,12 @@ package pe.edu.upc.agroleak.monitoring.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pe.edu.upc.agroleak.alert.application.AlertService;
-import pe.edu.upc.agroleak.device.domain.Device;
-import pe.edu.upc.agroleak.monitoring.config.DetectionProperties;
-import pe.edu.upc.agroleak.monitoring.domain.SensorSnapshot;
-import pe.edu.upc.agroleak.telemetry.domain.SensorReading;
-import pe.edu.upc.agroleak.telemetry.domain.SensorType;
+import pe.edu.upc.agroleak.alerts.application.AlertService;
+import pe.edu.upc.agroleak.devices.domain.model.Device;
+import pe.edu.upc.agroleak.monitoring.infrastructure.config.DetectionProperties;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorSnapshot;
+import pe.edu.upc.agroleak.telemetry.domain.model.SensorReading;
+import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
 import pe.edu.upc.agroleak.telemetry.infrastructure.SensorReadingRepository;
 
 import java.time.Duration;

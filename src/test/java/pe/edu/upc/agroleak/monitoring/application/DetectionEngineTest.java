@@ -2,10 +2,10 @@ package pe.edu.upc.agroleak.monitoring.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pe.edu.upc.agroleak.alert.domain.AlertType;
-import pe.edu.upc.agroleak.monitoring.config.DetectionProperties;
-import pe.edu.upc.agroleak.monitoring.domain.AlertCandidate;
-import pe.edu.upc.agroleak.monitoring.domain.SensorSnapshot;
+import pe.edu.upc.agroleak.alerts.domain.model.AlertType;
+import pe.edu.upc.agroleak.monitoring.infrastructure.config.DetectionProperties;
+import pe.edu.upc.agroleak.monitoring.domain.model.AlertCandidate;
+import pe.edu.upc.agroleak.monitoring.domain.model.SensorSnapshot;
 
 import java.util.List;
 

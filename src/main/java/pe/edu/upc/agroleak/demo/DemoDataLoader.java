@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import pe.edu.upc.agroleak.device.application.DeviceService;
-import pe.edu.upc.agroleak.device.domain.Device;
-import pe.edu.upc.agroleak.device.infrastructure.DeviceRepository;
-import pe.edu.upc.agroleak.pest.application.PestObservationService;
+import pe.edu.upc.agroleak.devices.application.DeviceService;
+import pe.edu.upc.agroleak.devices.domain.model.Device;
+import pe.edu.upc.agroleak.devices.infrastructure.DeviceRepository;
+import pe.edu.upc.agroleak.pests.application.PestObservationService;
 import pe.edu.upc.agroleak.telemetry.application.ReadingService;
-import pe.edu.upc.agroleak.telemetry.domain.SensorType;
+import pe.edu.upc.agroleak.telemetry.domain.model.SensorType;
 
 @Component
 @ConditionalOnProperty(prefix = "agroleak", name = "demo-data-enabled", havingValue = "true", matchIfMissing = true)
