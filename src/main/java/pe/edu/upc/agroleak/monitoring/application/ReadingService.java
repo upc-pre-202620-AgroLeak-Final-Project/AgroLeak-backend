@@ -30,19 +30,42 @@ public class ReadingService {
 
     @Transactional
     public SensorReading create(UUID deviceId, SensorType sensorType, double value, String unit, Instant recordedAt) {
-        Device device = deviceService.get(deviceId);
-        Instant timestamp = recordedAt == null ? Instant.now() : recordedAt;
-        SensorReading reading = repository.save(new SensorReading(device, sensorType, value, unit, timestamp));
+        Device device = deviceService.lockOwned(deviceId);
+        SensorReading reading = persist(device,sensorType,value,unit,recordedAt == null ? Instant.now() : recordedAt);
         deviceService.markSeen(deviceId);
         repository.flush();
         detectionService.evaluate(device);
         return reading;
     }
 
+    /** One coherent acquisition, used by demo producers to avoid intermediate mixed snapshots. */
+    @Transactional
+    public void recordSnapshot(UUID deviceId,Map<SensorType,Double> values,Instant recordedAt) {
+        Device device=deviceService.lockOwned(deviceId);
+        if(values==null || values.isEmpty()) throw new IllegalArgumentException("La muestra no puede estar vacia");
+        Instant at=recordedAt==null ? Instant.now() : recordedAt;
+        values.forEach((type,value) -> persist(device,type,value,unit(type),at));
+        deviceService.markSeen(deviceId);
+        repository.flush();
+        detectionService.evaluate(device);
+    }
+    private String unit(SensorType type) {
+        if(type==null) throw new IllegalArgumentException("sensorType es obligatorio");
+        return switch(type) { case FLOW_IN,FLOW_OUT -> "L/min"; case PRESSURE -> "bar"; case SOIL_MOISTURE -> "%"; };
+    }
+    private SensorReading persist(Device device,SensorType type,double value,String unit,Instant at) {
+        if (!Double.isFinite(value) || value < 0 || (type == SensorType.SOIL_MOISTURE && value > 100))
+            throw new IllegalArgumentException("Valor de sensor fuera de rango");
+        String expected=unit(type);
+        if (!expected.equals(unit)) throw new IllegalArgumentException("Unidad esperada: " + expected);
+        if (at.isAfter(Instant.now())) throw new IllegalArgumentException("recordedAt no puede ser futuro");
+        return repository.save(new SensorReading(device,type,value,unit,at));
+    }
+
     @Transactional(readOnly = true)
     public List<SensorReading> recent(UUID deviceId, int limit) {
         deviceService.get(deviceId);
-        int safeLimit = Math.max(1, Math.min(limit, 500));
+        int safeLimit = pe.edu.upc.agroleak.common.domain.TimeRange.limit(limit);
         return repository.findByDeviceIdOrderByRecordedAtDesc(deviceId, PageRequest.of(0, safeLimit));
     }
 
@@ -59,6 +82,7 @@ public class ReadingService {
 
     @Transactional(readOnly = true)
     public Optional<SensorReading> latest(UUID deviceId, SensorType type) {
+        deviceService.get(deviceId);
         return repository.findTopByDeviceIdAndSensorTypeOrderByRecordedAtDesc(deviceId, type);
     }
 }

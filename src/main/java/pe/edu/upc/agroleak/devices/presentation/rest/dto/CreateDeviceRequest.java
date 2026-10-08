@@ -1,8 +1,16 @@
 package pe.edu.upc.agroleak.devices.presentation.rest.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
+import pe.edu.upc.agroleak.devices.domain.model.*;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 public record CreateDeviceRequest(
-        @NotBlank(message = "El nombre es obligatorio") String name,
-        @NotBlank(message = "La ubicación es obligatoria") String location
-) {}
+        @NotBlank @Size(max = 100) String name,
+        @NotBlank @Size(max = 120) String location,
+        DeviceType deviceType, DeviceStatus status,
+        @Min(0) @Max(100) Integer batteryLevel,
+        @Size(max = 100) String firmwareVersion,
+        @PastOrPresent LocalDate installationDate, UUID sectorId) {
+}

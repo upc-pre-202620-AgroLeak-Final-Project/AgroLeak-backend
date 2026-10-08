@@ -17,17 +17,27 @@ public class UserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public User save(User user) { return repository.save(user); }
+    public User save(User user) {
+        return repository.save(user);
+    }
 
     @Override
-    public Optional<User> findById(UUID id) { return repository.findById(id); }
+    public Optional<User> findById(UUID id) {
+        return repository.findById(id);
+    }
 
     @Override
-    public Optional<User> findByEmail(String email) { return repository.findByEmail(email); }
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmailIgnoreCase(email);
+    }
 
     @Override
-    public boolean existsByEmail(String email) { return repository.existsByEmail(email); }
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmailIgnoreCase(email);
+    }
 
     @Override
-    public List<User> findAll() { return repository.findAll(); }
+    public List<User> findAll() {
+        return repository.findAll();
+    }
 }

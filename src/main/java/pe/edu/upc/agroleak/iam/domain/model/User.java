@@ -44,7 +44,8 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    protected User() {}
+    protected User() {
+    }
 
     /**
      * passwordHash must already be encoded by the caller. This model does not
@@ -82,14 +83,44 @@ public class User {
         updatedAt = Instant.now();
     }
 
-    public UUID getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getEmail() { return email; }
-    public String getPasswordHash() { return passwordHash; }
-    public Role getRole() { return role; }
-    public boolean isActive() { return active; }
-    public Instant getCreatedAt() { return createdAt; }
-    public Instant getUpdatedAt() { return updatedAt; }
-    public void setActive(boolean active) { this.active = active; }
+    public UUID getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

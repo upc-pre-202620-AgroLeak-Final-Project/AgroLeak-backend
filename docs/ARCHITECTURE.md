@@ -4,7 +4,9 @@ AgroLeak v0.1 usa un **modular monolith** para mantener bajo el costo de operaci
 
 ## Bounded contexts y módulos compartidos
 
-- `devices`: identidad y estado de gateways.
+- `iam`: usuarios, roles, BCrypt, JWT y acceso al usuario actual.
+- `farm`: jerarquía Farm -> Field -> Sector -> Crop y propiedad.
+- `devices`: identidad, estado y propiedad de dispositivos/gateways.
 - `monitoring`: adquisición y persistencia de mediciones, consulta de lecturas y evaluación de reglas.
 - `alerts`: ciclo de vida de anomalías detectadas.
 - `irrigation`: comandos y confirmación del actuador.
@@ -25,7 +27,7 @@ Se crean únicamente las capas que tienen clases existentes:
 - `presentation/rest`: controllers REST.
 - `presentation/rest/dto`: solicitudes y respuestas HTTP.
 
-Los repositorios actuales extienden `JpaRepository`, por lo que permanecen en `infrastructure`. No hay contratos de repositorio independientes ni un paquete `domain/repository` vacío.
+IAM y Farm tienen contratos en `domain/repository` y adaptadores Spring Data en `infrastructure/persistence`. Los repositorios de los contextos anteriores conservan su organización en `infrastructure`.
 
 En `monitoring`, la estructura es:
 
@@ -57,11 +59,11 @@ monitoring/
 
 `analytics` agrega información de dispositivos, monitoreo, alertas, riego y plagas. `demo` utiliza los servicios existentes para generar sus datos y escenarios.
 
-Este refactor conserva las dependencias existentes entre contextos, incluidas las referencias JPA a `Device`. También mantiene la construcción de `DashboardResponse` desde `DashboardService`; separar ese resultado de aplicación del DTO HTTP requeriría otro cambio. La reorganización no introduce eventos, adaptadores ni contratos nuevos.
+Este refactor conserva las dependencias existentes entre contextos, incluidas las referencias JPA a `Device`. También mantiene la construcción de `DashboardResponse` desde `DashboardService`; separar ese resultado de aplicación del DTO HTTP requeriría otro cambio. La evolución IAM/Farm agrega contratos y adaptadores para esos contextos; no introduce eventos ni microservicios.
 
 ## Compatibilidad REST
 
-Los nombres de los paquetes no cambian las URLs: las lecturas siguen bajo `/api/v1/readings`, las válvulas bajo `/api/v1/valves` y el dashboard bajo `/api/v1/dashboard`. Se conservan los demás endpoints, los contratos JSON y la configuración de Swagger/OpenAPI.
+Los nombres de los paquetes no cambian las URLs: las lecturas siguen bajo `/api/v1/readings`, las válvulas bajo `/api/v1/valves` y el dashboard bajo `/api/v1/dashboard`. Se conservan los demás endpoints y campos JSON. La API exige ahora JWT, salvo registro, login, Swagger y health. Devices agrega campos opcionales y ownership. Ver [IAM y Farm](IAM-FARM.md) para los nuevos contratos.
 
 ## Flujo principal
 

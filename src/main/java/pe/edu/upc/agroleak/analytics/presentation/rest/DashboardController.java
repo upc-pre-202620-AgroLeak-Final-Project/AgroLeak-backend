@@ -10,6 +10,7 @@ import pe.edu.upc.agroleak.analytics.application.DashboardService;
 
 import java.util.UUID;
 
+@io.swagger.v3.oas.annotations.tags.Tag(name="Analytics")
 @RestController
 @RequestMapping("/api/v1/dashboard")
 public class DashboardController {

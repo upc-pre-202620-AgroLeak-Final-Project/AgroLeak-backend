@@ -36,21 +36,12 @@ public class DetectionService {
         Optional<SensorReading> flowOut = latest(deviceId, SensorType.FLOW_OUT);
         Optional<SensorReading> pressure = latest(deviceId, SensorType.PRESSURE);
 
-        Double flowInValue = flowIn.map(SensorReading::getValue).orElse(null);
-        Double flowOutValue = flowOut.map(SensorReading::getValue).orElse(null);
-
-        if (flowIn.isPresent() && flowOut.isPresent()) {
-            long seconds = Math.abs(Duration.between(flowIn.get().getRecordedAt(), flowOut.get().getRecordedAt()).toSeconds());
-            if (seconds > properties.getPairWindowSeconds()) {
-                flowInValue = null;
-                flowOutValue = null;
-            }
-        }
-
-        SensorSnapshot snapshot = new SensorSnapshot(
-                flowInValue,
-                flowOutValue,
-                pressure.map(SensorReading::getValue).orElse(null));
+        var anchor = java.util.stream.Stream.of(flowIn,flowOut,pressure).flatMap(Optional::stream)
+                .map(SensorReading::getRecordedAt).max(java.time.Instant::compareTo).orElse(java.time.Instant.now());
+        java.util.function.Function<Optional<SensorReading>,Double> fresh = reading -> reading
+                .filter(r -> Math.abs(Duration.between(r.getRecordedAt(),anchor).toSeconds()) <= properties.getPairWindowSeconds())
+                .map(SensorReading::getValue).orElse(null);
+        SensorSnapshot snapshot = new SensorSnapshot(fresh.apply(flowIn),fresh.apply(flowOut),fresh.apply(pressure));
 
         engine.evaluate(snapshot).forEach(candidate ->
                 alertService.createIfNotActive(device, candidate.type(), candidate.severity(), candidate.message()));

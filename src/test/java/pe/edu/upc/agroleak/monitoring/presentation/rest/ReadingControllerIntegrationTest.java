@@ -19,13 +19,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@org.springframework.security.test.context.support.WithMockUser(username = "00000000-0000-0000-0000-000000000001", roles = "ADMIN")
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class ReadingControllerIntegrationTest {
-    @Autowired MockMvc mockMvc;
-    @Autowired ObjectMapper objectMapper;
-    @Autowired DeviceService deviceService;
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
+    DeviceService deviceService;
 
     @Test
     void shouldCreateLeakAlertAfterInconsistentFlowReadings() throws Exception {

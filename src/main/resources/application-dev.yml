@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/agroleak}
+    username: ${DB_USERNAME:agroleak}
+    password: ${DB_PASSWORD:agroleak}
+  flyway:
+    # Local transition from the preceding Hibernate-created schema only.
+    baseline-on-migrate: true
+agroleak:
+  demo-data-enabled: ${DEMO_DATA_ENABLED:true}
+  demo:
+    email: ${DEMO_EMAIL:demo@agroleak.local}
+    password: ${DEMO_PASSWORD:AgroLeakDemo123!}

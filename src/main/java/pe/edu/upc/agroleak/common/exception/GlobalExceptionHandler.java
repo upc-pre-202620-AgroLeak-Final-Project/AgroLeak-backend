@@ -33,9 +33,32 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "La solicitud contiene datos inválidos", request.getRequestURI(), errors);
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
+            org.springframework.web.bind.MissingServletRequestParameterException.class,
+            org.springframework.web.method.annotation.HandlerMethodValidationException.class,
+            jakarta.validation.ConstraintViolationException.class})
     public ResponseEntity<ApiError> handleMalformedRequest(Exception ex, HttpServletRequest request) {
         return build(HttpStatus.BAD_REQUEST, "Formato de solicitud inválido", request.getRequestURI(), Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    public ResponseEntity<ApiError> handleAuthentication(Exception ex, HttpServletRequest request) {
+        return build(HttpStatus.UNAUTHORIZED, "Credenciales inválidas", request.getRequestURI(), Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleForbidden(Exception ex, HttpServletRequest request) {
+        return build(HttpStatus.FORBIDDEN, "Operación no permitida", request.getRequestURI(), Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleConflict(Exception ex, HttpServletRequest request) {
+        return build(HttpStatus.CONFLICT, "El recurso ya existe o tiene referencias dependientes", request.getRequestURI(), Map.of());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleArgument(Exception ex, HttpServletRequest request) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI(), Map.of());
     }
 
     @ExceptionHandler(Exception.class)

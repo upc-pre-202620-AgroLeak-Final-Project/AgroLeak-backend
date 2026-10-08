@@ -24,7 +24,7 @@ public class DetectionEngine {
         if (snapshot.pressure() != null &&
                 (snapshot.pressure() < properties.getPressureMinBar() || snapshot.pressure() > properties.getPressureMaxBar())) {
             alerts.add(new AlertCandidate(
-                    AlertType.PRESSURE_OUT_OF_RANGE,
+                    snapshot.pressure() < properties.getPressureMinBar() ? AlertType.LOW_PRESSURE : AlertType.HIGH_PRESSURE,
                     AlertSeverity.MEDIUM,
                     "Presión fuera del rango esperado: %.2f bar".formatted(snapshot.pressure())));
         }

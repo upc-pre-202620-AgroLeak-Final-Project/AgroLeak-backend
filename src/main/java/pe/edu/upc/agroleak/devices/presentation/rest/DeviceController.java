@@ -11,6 +11,7 @@ import pe.edu.upc.agroleak.devices.application.DeviceService;
 import java.util.List;
 import java.util.UUID;
 
+@io.swagger.v3.oas.annotations.tags.Tag(name="Devices")
 @RestController
 @RequestMapping("/api/v1/devices")
 public class DeviceController {
@@ -23,7 +24,12 @@ public class DeviceController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DeviceResponse create(@Valid @RequestBody CreateDeviceRequest request) {
-        return DeviceResponse.from(service.create(request.name(), request.location()));
+        return DeviceResponse.from(service.create(request.name(), request.location(), request.deviceType(), request.status(), request.batteryLevel(), request.firmwareVersion(), request.installationDate(), request.sectorId()));
+    }
+
+    @PatchMapping("/{id}/sector")
+    public DeviceResponse assignSector(@PathVariable UUID id, @Valid @RequestBody pe.edu.upc.agroleak.devices.presentation.rest.dto.AssignSectorRequest request) {
+        return DeviceResponse.from(service.assignSector(id, request.sectorId()));
     }
 
     @GetMapping

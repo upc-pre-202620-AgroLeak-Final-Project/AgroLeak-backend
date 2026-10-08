@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/readings")
+@io.swagger.v3.oas.annotations.tags.Tag(name="Monitoring")
 public class ReadingController {
     private final ReadingService service;
 

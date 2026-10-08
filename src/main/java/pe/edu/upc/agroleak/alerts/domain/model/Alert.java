@@ -15,8 +15,8 @@ public class Alert {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "device_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id")
     private Device device;
 
     @Enumerated(EnumType.STRING)
@@ -37,12 +37,31 @@ public class Alert {
     @Column(nullable = false)
     private Instant createdAt;
 
+    private UUID sectorId;
+    public UUID getSectorId() { return sectorId; }
+    public void locate(UUID sectorId) { this.sectorId=sectorId; }
     private Instant resolvedAt;
+    private Instant acknowledgedAt;
+    private UUID acknowledgedBy;
+    private UUID resolvedBy;
+    public Instant getAcknowledgedAt() { return acknowledgedAt; }
+    public UUID getAcknowledgedBy() { return acknowledgedBy; }
+    public UUID getResolvedBy() { return resolvedBy; }
+    public void acknowledge(UUID actor) {
+        if (status == AlertStatus.RESOLVED) throw new pe.edu.upc.agroleak.common.exception.BusinessRuleException("Una alerta resuelta no puede reconocerse");
+        if (status == AlertStatus.ACKNOWLEDGED) return;
+        status = AlertStatus.ACKNOWLEDGED; acknowledgedAt = Instant.now(); acknowledgedBy = actor;
+    }
+    public void resolve(UUID actor) {
+        if (status == AlertStatus.RESOLVED) return;
+        status = AlertStatus.RESOLVED; resolvedAt = Instant.now(); resolvedBy = actor;
+    }
 
     protected Alert() {}
 
     public Alert(Device device, AlertType type, AlertSeverity severity, String message) {
         this.device = device;
+        this.sectorId = device == null ? null : device.getSectorId();
         this.type = type;
         this.severity = severity;
         this.message = message;
@@ -59,7 +78,6 @@ public class Alert {
     public Instant getResolvedAt() { return resolvedAt; }
 
     public void resolve() {
-        this.status = AlertStatus.RESOLVED;
-        this.resolvedAt = Instant.now();
+        resolve(null);
     }
 }

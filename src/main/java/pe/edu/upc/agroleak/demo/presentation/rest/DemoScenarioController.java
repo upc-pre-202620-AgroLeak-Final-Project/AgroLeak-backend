@@ -9,8 +9,10 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
+@io.swagger.v3.oas.annotations.tags.Tag(name="Demo")
 @RestController
 @RequestMapping("/api/v1/demo/scenarios")
+@org.springframework.context.annotation.Profile("!prod")
 @ConditionalOnProperty(prefix = "agroleak", name = "demo-data-enabled", havingValue = "true", matchIfMissing = true)
 public class DemoScenarioController {
     private final DemoScenarioService service;

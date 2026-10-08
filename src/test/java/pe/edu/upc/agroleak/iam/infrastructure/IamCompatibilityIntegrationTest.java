@@ -20,17 +20,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class IamCompatibilityIntegrationTest {
-    @Autowired MockMvc mockMvc;
-    @Autowired ObjectMapper objectMapper;
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
-    void shouldKeepExistingOpenApiPathsWithoutExposingIam() throws Exception {
+    void shouldKeepExistingOpenApiPathsAndExposeSecureIam() throws Exception {
         String body = mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         JsonNode document = objectMapper.readTree(body);
         Set<String> paths = new HashSet<>();
         document.path("paths").fieldNames().forEachRemaining(paths::add);
-        assertThat(paths).containsExactlyInAnyOrder(
+        assertThat(paths).contains(
                 "/api/v1/devices", "/api/v1/devices/{id}",
                 "/api/v1/readings", "/api/v1/readings/device/{deviceId}",
                 "/api/v1/readings/device/{deviceId}/latest",
@@ -39,6 +41,8 @@ class IamCompatibilityIntegrationTest {
                 "/api/v1/valves/{deviceId}/latest", "/api/v1/pest-observations",
                 "/api/v1/pest-observations/device/{deviceId}", "/api/v1/dashboard/{deviceId}");
         assertThat(document.path("components").path("schemas").has("User")).isFalse();
+        assertThat(paths).contains("/api/v1/iam/auth/register", "/api/v1/iam/auth/login", "/api/v1/iam/users/me", "/api/v1/farms");
+        assertThat(document.path("components").path("securitySchemes").has("bearerAuth")).isTrue();
         mockMvc.perform(get("/swagger-ui/index.html")).andExpect(status().isOk());
     }
 }

@@ -45,8 +45,13 @@ class DetectionEngineTest {
     }
 
     @Test
+    void shouldDetectLowPressureWithoutChangingThreshold() {
+        assertThat(engine.evaluate(new SensorSnapshot(null,null,0.5))).extracting(AlertCandidate::type).contains(AlertType.LOW_PRESSURE);
+    }
+
+    @Test
     void shouldDetectPressureOutsideConfiguredRange() {
         List<AlertCandidate> result = engine.evaluate(new SensorSnapshot(null, null, 4.5));
-        assertThat(result).extracting(AlertCandidate::type).contains(AlertType.PRESSURE_OUT_OF_RANGE);
+        assertThat(result).extracting(AlertCandidate::type).contains(AlertType.HIGH_PRESSURE);
     }
 }

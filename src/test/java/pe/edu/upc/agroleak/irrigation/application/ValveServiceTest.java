@@ -22,12 +22,15 @@ import static org.mockito.Mockito.*;
 class ValveServiceTest {
     @Mock ValveCommandRepository repository;
     @Mock DeviceService deviceService;
+    @Mock pe.edu.upc.agroleak.irrigation.infrastructure.IrrigationSettingsRepository settings;
     @InjectMocks ValveService service;
 
     @Test
     void shouldRejectSecondPendingCommandForSameDevice() {
         UUID deviceId = UUID.randomUUID();
-        when(deviceService.get(deviceId)).thenReturn(new Device("Gateway", "Sector A"));
+        Device device=new Device("Gateway", "Sector A");
+        when(deviceService.lockOwned(deviceId)).thenReturn(device);
+        when(deviceService.get(deviceId)).thenReturn(device);
         when(repository.existsByDeviceIdAndStatus(deviceId, ValveCommandStatus.PENDING)).thenReturn(true);
 
         assertThatThrownBy(() -> service.request(deviceId, ValveAction.CLOSE))

@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:h2:mem:agroleak;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;NON_KEYWORDS=VALUE
     driver-class-name: org.h2.Driver
@@ -10,6 +12,8 @@ spring:
     open-in-view: false
 
 agroleak:
+  offline:
+    enabled: false
   demo-data-enabled: false
   detection:
     leak-threshold-percent: 20.0

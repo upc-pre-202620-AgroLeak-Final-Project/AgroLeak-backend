@@ -15,8 +15,8 @@ public class PestObservation {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "device_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id")
     private Device device;
 
     @Column(nullable = false)
@@ -31,6 +31,11 @@ public class PestObservation {
     @Column(name = "recorded_at", nullable = false)
     private Instant recordedAt;
 
+    private UUID sectorId;
+    @Column(length=100) private String pestType;
+    public UUID getSectorId() { return sectorId; }
+    public String getPestType() { return pestType; }
+    public void describe(UUID sectorId,String pestType) { this.sectorId=sectorId;this.pestType=pestType; }
     protected PestObservation() {}
 
     public PestObservation(Device device, int pestCount, double confidence, String imageUrl, Instant recordedAt) {

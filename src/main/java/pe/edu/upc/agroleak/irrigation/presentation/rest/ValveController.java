@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/valves")
+@io.swagger.v3.oas.annotations.tags.Tag(name="Irrigation")
 public class ValveController {
     private final ValveService service;
 
@@ -30,6 +31,13 @@ public class ValveController {
     public ValveCommandResponse confirm(@PathVariable UUID commandId, @Valid @RequestBody ConfirmValveCommandRequest request) {
         return ValveCommandResponse.from(service.confirm(commandId, request.success()));
     }
+
+    public record ModeRequest(@jakarta.validation.constraints.NotNull pe.edu.upc.agroleak.irrigation.domain.model.OperationMode mode) {}
+    public record ModeResponse(UUID deviceId,pe.edu.upc.agroleak.irrigation.domain.model.OperationMode mode) {}
+    @GetMapping("/{deviceId}/mode")
+    public ModeResponse mode(@PathVariable UUID deviceId) { return new ModeResponse(deviceId,service.mode(deviceId)); }
+    @PutMapping("/{deviceId}/mode")
+    public ModeResponse mode(@PathVariable UUID deviceId,@Valid @RequestBody ModeRequest request) { return new ModeResponse(deviceId,service.changeMode(deviceId,request.mode())); }
 
     @GetMapping("/{deviceId}/latest")
     public ValveCommandResponse latest(@PathVariable UUID deviceId) {
