@@ -57,13 +57,12 @@ ESP32 / Wokwi / Postman
 |      AgroLeak Backend       |
 |  Spring Boot Modular Mono.  |
 |-----------------------------|
-| device                      |
-| telemetry                   |
+| devices                     |
 | monitoring                  |
-| alert                       |
-| valve                       |
-| pest                        |
-| dashboard                   |
+| alerts                      |
+| irrigation                  |
+| pests                       |
+| analytics                   |
 +--------------+--------------+
                |
                v
@@ -73,7 +72,9 @@ ESP32 / Wokwi / Postman
         Frontend AgroLeak
 ```
 
-Cada módulo mantiene `domain`, `application`, `infrastructure` y/o `api` cuando corresponde. Esto permite evolucionar después hacia una arquitectura más distribuida sin complicar el MVP actual.
+Cada contexto utiliza `application`, `domain/model`, `infrastructure` y `presentation/rest` cuando corresponde. Los DTO HTTP se encuentran en `presentation/rest/dto`. El contexto `monitoring` reúne la adquisición y persistencia de lecturas con la evaluación de reglas; `demo` conserva la infraestructura de demostración.
+
+La reorganización de paquetes conserva las rutas REST y los contratos JSON existentes. Ver el detalle en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Requisitos
 
@@ -330,15 +331,14 @@ Incluye:
 
 ```text
 src/main/java/pe/edu/upc/agroleak/
-├── alert/
+├── alerts/
+├── analytics/
 ├── common/
-├── dashboard/
 ├── demo/
-├── device/
+├── devices/
+├── irrigation/
 ├── monitoring/
-├── pest/
-├── telemetry/
-├── valve/
+├── pests/
 └── AgroLeakApplication.java
 ```
 
