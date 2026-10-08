@@ -2,7 +2,7 @@ spring:
   application:
     name: agroleak-backend
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/agroleak}
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/agroleak}
     username: ${DB_USERNAME:agroleak}
     password: ${DB_PASSWORD:agroleak}
   jpa:
@@ -17,7 +17,7 @@ spring:
       write-dates-as-timestamps: false
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT:8081}
 
 management:
   endpoints:

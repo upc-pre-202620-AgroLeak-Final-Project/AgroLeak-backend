@@ -96,7 +96,7 @@ Configuración por defecto:
 DB:       agroleak
 User:     agroleak
 Password: agroleak
-Port:     5432
+Port:     5433 (host; 5432 dentro del contenedor)
 ```
 
 ## 2. Ejecutar backend
@@ -108,19 +108,19 @@ mvn spring-boot:run
 API:
 
 ```text
-http://localhost:8080
+http://localhost:8081
 ```
 
 Swagger:
 
 ```text
-http://localhost:8080/swagger-ui.html
+http://localhost:8081/swagger-ui.html
 ```
 
 Health check:
 
 ```text
-http://localhost:8080/actuator/health
+http://localhost:8081/actuator/health
 ```
 
 ## Datos demo
@@ -299,10 +299,10 @@ Rango MVP:
 ## Variables de entorno
 
 ```text
-DB_URL=jdbc:postgresql://localhost:5432/agroleak
+DB_URL=jdbc:postgresql://localhost:5433/agroleak
 DB_USERNAME=agroleak
 DB_PASSWORD=agroleak
-PORT=8080
+PORT=8081
 CORS_ALLOWED_ORIGINS=*
 DEMO_DATA_ENABLED=true
 ```

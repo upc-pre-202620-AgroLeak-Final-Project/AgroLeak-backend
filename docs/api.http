@@ -1,23 +1,23 @@
 ### 1. List devices
-GET http://localhost:8080/api/v1/devices
+GET http://localhost:8081/api/v1/devices
 
 ### Reemplaza este UUID con el de GET /devices
 @deviceId = 00000000-0000-0000-0000-000000000000
 
 ### 2. Normal scenario
-POST http://localhost:8080/api/v1/demo/scenarios/normal/{{deviceId}}
+POST http://localhost:8081/api/v1/demo/scenarios/normal/{{deviceId}}
 
 ### 3. Dashboard
-GET http://localhost:8080/api/v1/dashboard/{{deviceId}}
+GET http://localhost:8081/api/v1/dashboard/{{deviceId}}
 
 ### 4. Leak scenario
-POST http://localhost:8080/api/v1/demo/scenarios/leak/{{deviceId}}
+POST http://localhost:8081/api/v1/demo/scenarios/leak/{{deviceId}}
 
 ### 5. Active alerts
-GET http://localhost:8080/api/v1/alerts?deviceId={{deviceId}}&status=ACTIVE
+GET http://localhost:8081/api/v1/alerts?deviceId={{deviceId}}&status=ACTIVE
 
 ### 6. Close valve
-POST http://localhost:8080/api/v1/valves/{{deviceId}}/commands
+POST http://localhost:8081/api/v1/valves/{{deviceId}}/commands
 Content-Type: application/json
 
 {
@@ -25,10 +25,10 @@ Content-Type: application/json
 }
 
 ### 7. Latest valve command
-GET http://localhost:8080/api/v1/valves/{{deviceId}}/latest
+GET http://localhost:8081/api/v1/valves/{{deviceId}}/latest
 
 ### 8. Pest observation
-POST http://localhost:8080/api/v1/pest-observations
+POST http://localhost:8081/api/v1/pest-observations
 Content-Type: application/json
 
 {

@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: agroleak
       POSTGRES_PASSWORD: agroleak
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - agroleak_pgdata:/var/lib/postgresql/data
     healthcheck:
