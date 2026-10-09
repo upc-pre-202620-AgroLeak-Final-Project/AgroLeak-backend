@@ -55,6 +55,7 @@ Flyway ejecuta las migraciones antes de que Hibernate valide el esquema. No se u
 | `JWT_EXPIRATION_MS` | `3600000` |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:4200,http://localhost:5173`; lista explícita obligatoria en PROD |
 | `DEMO_DATA_ENABLED` | `true` en DEV; demo siempre excluido en PROD |
+| `PRESENTATION_DATA_ENABLED` | `true` en DEV, `false` en PROD; activar explícitamente para la presentación académica |
 | `DEMO_EMAIL`, `DEMO_PASSWORD` | Cuenta de demostración local; ver siguiente sección |
 | `DEVICE_OFFLINE_SECONDS` | `300`; revisión cada 60 segundos |
 | `FLOW_MAX_HOLD_SECONDS` | `300`; antigüedad máxima del caudal para estimar litros |
@@ -98,16 +99,23 @@ Históricos: `deviceId`, `sensorType`, `from`, `to`, `limit`. Fechas ISO-8601, i
 
 ## Cuenta maestra para la presentación
 
-Al arrancar con el perfil `dev` (predeterminado) y `DEMO_DATA_ENABLED=true`,
-se crea automáticamente esta cuenta adicional con acceso global **ADMIN**:
+Al arrancar con el perfil `dev` (predeterminado), se crea automáticamente
+esta cuenta adicional con acceso global **ADMIN** para la presentación académica.
+En `prod`, activar explícitamente `PRESENTATION_DATA_ENABLED=true` en las variables
+del despliegue; por defecto está desactivada en ese perfil:
 
 ```json
 {"email":"maestro@agroleak.local","password":"123456789"}
 ```
 
 Iniciar sesión desde el app o con `POST /api/v1/iam/auth/login`.
-La contraseña se almacena con BCrypt. Esta cuenta de presentación no se crea
-con el perfil `prod` ni cuando se deshabilitan los datos demo.
+La contraseña se almacena con BCrypt. La cuenta de presentación se controla
+por separado de la demo antigua: `DEMO_DATA_ENABLED=false` no la deshabilita.
+Configurar `PRESENTATION_DATA_ENABLED=false` para impedir su creación en nuevas
+bases; esta opción no elimina ni desactiva una cuenta ya creada.
+En Render, agregar `PRESENTATION_DATA_ENABLED=true` en Environment,
+guardar y desplegar este commit. Esperar a que termine el arranque inicial
+(la carga de lecturas puede tardar alrededor de un minuto) antes de ingresar.
 
 Incluye la finca **AgroLeak Presentacion**, una parcela, dos sectores, dos
 cultivos y seis dispositivos; siete días de lecturas cada cinco minutos
@@ -181,7 +189,7 @@ JWT_EXPIRATION_MS=3600000
 CORS_ALLOWED_ORIGINS=https://frontend.example.com
 ```
 
-Usar una URL **JDBC**; una URL `postgres://usuario:password@host/db` no se acepta directamente. Separar usuario/contraseña en sus variables y conservar las opciones TLS requeridas por el proveedor. Flyway necesita permisos DDL para aplicar las migraciones. PROD usa `validate`, pool configurable con `DB_POOL_SIZE` (5 por defecto), sin demo y sin secretos de desarrollo.
+Usar una URL **JDBC**; una URL `postgres://usuario:password@host/db` no se acepta directamente. Separar usuario/contraseña en sus variables y conservar las opciones TLS requeridas por el proveedor. Flyway necesita permisos DDL para aplicar las migraciones. PROD usa `validate`, pool configurable con `DB_POOL_SIZE` (5 por defecto), sin la demo antigua y sin secretos JWT de desarrollo. La cuenta maestra académica se controla con `PRESENTATION_DATA_ENABLED`.
 
 ```bash
 mvn -DskipTests package

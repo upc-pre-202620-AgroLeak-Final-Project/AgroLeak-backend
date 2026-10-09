@@ -7,6 +7,7 @@ spring:
     # Local transition from the preceding Hibernate-created schema only.
     baseline-on-migrate: true
 agroleak:
+  presentation-data-enabled: ${PRESENTATION_DATA_ENABLED:true}
   demo-data-enabled: ${DEMO_DATA_ENABLED:true}
   demo:
     email: ${DEMO_EMAIL:demo@agroleak.local}

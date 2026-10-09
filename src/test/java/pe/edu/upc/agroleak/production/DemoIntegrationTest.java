@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(properties={
     "spring.datasource.url=jdbc:h2:mem:agroleak_demo;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=VALUE",
-    "agroleak.demo-data-enabled=true","agroleak.demo.password=DemoTest123!"})
+    "agroleak.demo-data-enabled=true","agroleak.presentation-data-enabled=true","agroleak.demo.password=DemoTest123!"})
 @org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode=DirtiesContext.ClassMode.AFTER_CLASS)

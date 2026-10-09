@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,8 +29,7 @@ import java.time.*;
 import java.util.List;
 
 @Component
-@Profile("!prod")
-@ConditionalOnProperty(prefix="agroleak",name="demo-data-enabled",havingValue="true")
+@ConditionalOnProperty(prefix="agroleak",name="presentation-data-enabled",havingValue="true")
 public class PresentationDataLoader implements CommandLineRunner {
     private static final Logger log=LoggerFactory.getLogger(PresentationDataLoader.class);
     private final PasswordEncoder encoder; private final AlertService alerts; private final UserRepository users; private final FarmService farms;
