@@ -96,6 +96,31 @@ Prefijo común `/api/v1`; las rutas históricas siguen disponibles.
 
 Históricos: `deviceId`, `sensorType`, `from`, `to`, `limit`. Fechas ISO-8601, intervalos `[from,to)`, máximo 31 días, últimas 24 horas por defecto; `limit` entre 1 y 1000. Alertas: `deviceId`, `status`, `severity`, `type`, `limit`. Los filtros nunca amplían la propiedad del usuario autenticado.
 
+## Cuenta maestra para la presentación
+
+Al arrancar con el perfil `dev` (predeterminado) y `DEMO_DATA_ENABLED=true`,
+se crea automáticamente esta cuenta adicional con acceso global **ADMIN**:
+
+```json
+{"email":"maestro@agroleak.local","password":"123456789"}
+```
+
+Iniciar sesión desde el app o con `POST /api/v1/iam/auth/login`.
+La contraseña se almacena con BCrypt. Esta cuenta de presentación no se crea
+con el perfil `prod` ni cuando se deshabilitan los datos demo.
+
+Incluye la finca **AgroLeak Presentacion**, una parcela, dos sectores, dos
+cultivos y seis dispositivos; siete días de lecturas cada cinco minutos
+(más de 8000 registros), siete observaciones de plagas, una fuga resuelta,
+una inspección reconocida, una alerta de plagas activa y tres ciclos OPEN/CLOSE
+confirmados. Las lecturas y observaciones tienen fechas históricas; las acciones
+y su auditoría se registran al preparar la demo. Todos son datos simulados.
+
+Reiniciar conserva los datos y la contraseña, sin duplicarlos. Los siete días
+se calculan respecto al primer arranque: para verlos posteriormente, seleccionar
+ese intervalo en los históricos. No se reemplaza ni se eleva el rol de una cuenta
+existente con el mismo correo. La cuenta demo anterior sigue disponible.
+
 ## Flujo demo
 
 Solo en DEV se crea una cuenta **local académica**:
